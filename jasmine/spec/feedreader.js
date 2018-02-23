@@ -13,6 +13,12 @@ $(function () {
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
     */
+
+    // Blah
+    var allFeedsSize = allFeeds.length,
+        entries_start,
+        entries_end;
+
     describe('RSS Feeds', function () {
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
@@ -23,7 +29,7 @@ $(function () {
          */
         it('feeds are defined', function () {
             expect(allFeeds).toBeDefined();
-            expect(allFeeds.length).not.toBe(0);
+            expect(allFeedsSize).not.toBe(0);
         });
 
 
@@ -32,10 +38,10 @@ $(function () {
          * and that the URL is not empty.
          */
         it('urls are defined', function () {
-            allFeeds.forEach(function (feed) {
-                expect(feed.url).toBeDefined();
-                expect(feed.url.length).not.toBe(0);
-            });
+            for (var i = 0; i < allFeedsSize; i++) {
+                expect(allFeeds[i].url).toBeDefined();
+                expect(allFeeds[i].url.length).not.toBe(0);
+            };
         });
 
 
@@ -44,10 +50,10 @@ $(function () {
          * and that the name is not empty.
          */
         it('names are defined', function () {
-            allFeeds.forEach(function (feed) {
-                expect(feed.name).toBeDefined();
-                expect(feed.name.length).not.toBe(0);
-            });
+            for (var i = 0; i < allFeedsSize; i++) {
+                expect(allFeeds[i].name).toBeDefined();
+                expect(allFeeds[i].name.length).not.toBe(0);
+            }
         });
     });
 
@@ -61,8 +67,8 @@ $(function () {
          * hiding/showing of the menu element.
          */
 
-        it('the menu element is hidden', function () {
-            expect($('body').hasClass('menu-hidden')).toBe(true);
+        it('menu element is hidden', function () {
+            expect($('body').hasClass('menu-hidden')).toEqual(true);
         });
 
         /* TODO: Write a test that ensures the menu changes
@@ -72,16 +78,15 @@ $(function () {
          */
 
         it('working toggle on click event', function () {
-            $('a.menu-icon-link').trigger('click');
+            $('.menu-icon-link').trigger('click');
             expect($('body').hasClass('menu-hidden')).toBe(false);
-            $('a.menu-icon-link').trigger('click');
+            $('.menu-icon-link').trigger('click');
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function () {
-
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
@@ -90,33 +95,37 @@ $(function () {
          */
 
         beforeEach(function (done) {
-            loadFeed(0, done);
+            loadFeed(0, function () {
+                done();
+            });
         });
 
         it('define if entry has more than 0 entries', function () {
-            var entryCheck = $('.entry').length;
-            expect(entryCheck).toBeGreaterThan(0);
-
+            expect($('.feed .entry')).toBeDefined();
         });
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function () {
-        var initialFeed = $('.feed').html();
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
         beforeEach(function (done) {
+            $('.feed').empty();
             loadFeed(0, function () {
-                initialFeed;
-                loadFeed(1, done);
+                entries_start = $('.feed').find("h2").text();
+                done();
             });
         });
 
         it('new feed is different to old one', function () {
-            expect($('.feed').html()).not.toBe(initialFeed);
+            expect(entries_start).not.toBe(entries_end);
+        });
+
+        loadFeed(1, function () {
+            entries_end = $('.feed').find("h2").text();
         });
     });
 }());
