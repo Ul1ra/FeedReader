@@ -10,8 +10,7 @@ $(function () {
     */
 
     // Here is a list of variables that will be used inside the test
-    var allFeedsSize = allFeeds.length,
-        entriesStart,
+    var entriesStart,
         entriesEnd;
 
     // This is the RSS Feeds suite that tests the feeds 
@@ -20,12 +19,12 @@ $(function () {
         // Determines if allfeeds has been defined and that it is not empty
         it('feeds are defined', function () {
             expect(allFeeds).toBeDefined();
-            expect(allFeedsSize).not.toBe(0);
+            expect(allFeeds.length).not.toBe(0);
         });
 
         // Determines if allFeeds have a url and that the url is not empty
         it('urls are defined', function () {
-            for (var i = 0; i < allFeedsSize; i++) {
+            for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].url).toBeDefined();
                 expect(allFeeds[i].url.length).not.toBe(0);
             };
@@ -33,7 +32,7 @@ $(function () {
 
         // Determines if allFeeds have a name and that the name is not empty 
         it('names are defined', function () {
-            for (var i = 0; i < allFeedsSize; i++) {
+            for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].name).toBeDefined();
                 expect(allFeeds[i].name.length).not.toBe(0);
             }
