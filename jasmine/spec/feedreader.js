@@ -27,7 +27,7 @@ $(function () {
             for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].url).toBeDefined();
                 expect(allFeeds[i].url.length).not.toBe(0);
-            };
+            }
         });
 
         // Determines if allFeeds have a name and that the name is not empty 
