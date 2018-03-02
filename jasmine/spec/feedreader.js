@@ -9,9 +9,6 @@ $(function () {
     * feeds definitions, the allFeeds variable in our application.
     */
 
-    // Here is a list of variables that will be used inside the test
-    var entriesStart,
-        entriesEnd;
 
     // This is the RSS Feeds suite that tests the feeds 
     describe('RSS Feeds', function () {
@@ -71,35 +68,37 @@ $(function () {
 
         // Tests if the loadFeed function has at least a single '.entry' within
         // the '.feed' container
-        it('define if entry has more than 0 entries', function () {
-            expect($('.entry .feed')).toBeDefined();
+        it('define if feed has at least a single entry', function () {
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
     // New test suite that looks for new feed selections
     describe('New Feed Selection', function () {
+        var firstUrlOfFirstFeed, firstUrlOfSecondFeed;
 
         // Ensures that the new feed is loaded via the loadFeed function
         beforeEach(function (done) {
             $('.feed').empty();
             // Loads first entry and checks
             loadFeed(0, function () {
-
                 // Searches for the first feed for url
-                entriesStart = $('.feed').find(allFeeds.url);
+                firstUrlOfFirstFeed = $('.feed .entry-link')[0].href;
+                console.log('test1');
                 done();
             });
+            // Loads the second feed
             loadFeed(1, function () {
-
                 // Searches for the second feed for url
-                entriesEnd = $('.feed').find(allFeeds.url);
+                firstUrlOfSecondFeed = $('.feed .entry-link')[0].href;
+                console.log('test2');
                 done();
             });
         });
 
         // Tests to see if two entries are not equal
         it('new feed is different to old one', function () {
-            expect(entriesStart).not.toBe(entriesEnd);
+            expect(firstUrlOfFirstFeed).not.toBe(firstUrlOfSecondFeed);
         });
 
     });
