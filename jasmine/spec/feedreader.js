@@ -81,9 +81,15 @@ $(function () {
 		beforeEach(function(done) {
             loadFeed(1, function() {
 
+                // Tests if first feed is loaded
+                console.log('First feed loaded!')
+
                 // Loads first entry and checks
                 firstFeed = $('.feed').html();
                 loadFeed(2, function() {
+
+                    // Tests if second feed is loaded
+                    console.log('Second feed loaded!')
                     done();
                 });
             });        
