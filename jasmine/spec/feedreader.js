@@ -74,32 +74,31 @@ $(function () {
     });
 
     // New test suite that looks for new feed selections
-    describe('New Feed Selection', function () {
-        var firstUrlOfFirstFeed, firstUrlOfSecondFeed;
-
+    describe('New Feed Selection', function() {
+	    var firstFeed, secondFeed;
+        
         // Ensures that the new feed is loaded via the loadFeed function
-        beforeEach(function (done) {
-            $('.feed').empty();
-            // Loads first entry and checks
-            loadFeed(0, function () {
-                // Searches for the first feed for url
-                firstUrlOfFirstFeed = $('.feed .entry-link')[0].href;
-                console.log('test1');
-                done();
-            });
-            // Loads the second feed
-            loadFeed(1, function () {
-                // Searches for the second feed for url
-                firstUrlOfSecondFeed = $('.feed .entry-link')[0].href;
-                console.log('test2');
-                done();
-            });
+		beforeEach(function(done) {
+            loadFeed(1, function() {
+
+                // Loads first entry and checks
+                firstFeed = $('.feed').html();
+                loadFeed(2, function() {
+                    done();
+                });
+            });        
+         });
+		
+		afterEach(function() {
+            loadFeed(0);
         });
 
         // Tests to see if two entries are not equal
-        it('new feed is different to old one', function () {
-            expect(firstUrlOfFirstFeed).not.toBe(firstUrlOfSecondFeed);
-        });
+		it('checks if two feeds are different', function() {
 
-    });
+            // Checks second feed
+            secondFeed = $('.feed').html();
+            expect(firstFeed).not.toEqual(secondFeed);
+        }); 
+	});
 }());
